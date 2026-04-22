@@ -53,7 +53,8 @@ export const Route = createFileRoute("/api/ai/suggest-tasks")({
         });
 
         const toolCall = resp.choices[0]?.message?.tool_calls?.[0];
-        const args = toolCall ? JSON.parse(toolCall.function.arguments) : { suggestions: [] };
+        const argStr = toolCall && "function" in toolCall ? toolCall.function.arguments : null;
+        const args = argStr ? JSON.parse(argStr) : { suggestions: [] };
         return jsonResponse({ suggestions: args.suggestions ?? [] });
       },
     },
