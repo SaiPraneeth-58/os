@@ -9,38 +9,234 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiThreadsRouteImport } from './routes/api/threads'
+import { Route as ApiTasksRouteImport } from './routes/api/tasks'
+import { Route as ApiNotesRouteImport } from './routes/api/notes'
+import { Route as ApiEventsRouteImport } from './routes/api/events'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiTasksIdRouteImport } from './routes/api/tasks.$id'
+import { Route as ApiNotesIdRouteImport } from './routes/api/notes.$id'
+import { Route as ApiEventsIdRouteImport } from './routes/api/events.$id'
+import { Route as ApiAiSummarizeNoteRouteImport } from './routes/api/ai.summarize-note'
+import { Route as ApiAiSuggestTasksRouteImport } from './routes/api/ai.suggest-tasks'
+import { Route as ApiAiBriefingRouteImport } from './routes/api/ai.briefing'
+import { Route as ApiThreadsIdMessagesRouteImport } from './routes/api/threads.$id.messages'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiThreadsRoute = ApiThreadsRouteImport.update({
+  id: '/api/threads',
+  path: '/api/threads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTasksRoute = ApiTasksRouteImport.update({
+  id: '/api/tasks',
+  path: '/api/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNotesRoute = ApiNotesRouteImport.update({
+  id: '/api/notes',
+  path: '/api/notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEventsRoute = ApiEventsRouteImport.update({
+  id: '/api/events',
+  path: '/api/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTasksIdRoute = ApiTasksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiTasksRoute,
+} as any)
+const ApiNotesIdRoute = ApiNotesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiNotesRoute,
+} as any)
+const ApiEventsIdRoute = ApiEventsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiEventsRoute,
+} as any)
+const ApiAiSummarizeNoteRoute = ApiAiSummarizeNoteRouteImport.update({
+  id: '/api/ai/summarize-note',
+  path: '/api/ai/summarize-note',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAiSuggestTasksRoute = ApiAiSuggestTasksRouteImport.update({
+  id: '/api/ai/suggest-tasks',
+  path: '/api/ai/suggest-tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAiBriefingRoute = ApiAiBriefingRouteImport.update({
+  id: '/api/ai/briefing',
+  path: '/api/ai/briefing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiThreadsIdMessagesRoute = ApiThreadsIdMessagesRouteImport.update({
+  id: '/$id/messages',
+  path: '/$id/messages',
+  getParentRoute: () => ApiThreadsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/events': typeof ApiEventsRouteWithChildren
+  '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/tasks': typeof ApiTasksRouteWithChildren
+  '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/api/ai/briefing': typeof ApiAiBriefingRoute
+  '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
+  '/api/ai/summarize-note': typeof ApiAiSummarizeNoteRoute
+  '/api/events/$id': typeof ApiEventsIdRoute
+  '/api/notes/$id': typeof ApiNotesIdRoute
+  '/api/tasks/$id': typeof ApiTasksIdRoute
+  '/api/threads/$id/messages': typeof ApiThreadsIdMessagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/events': typeof ApiEventsRouteWithChildren
+  '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/tasks': typeof ApiTasksRouteWithChildren
+  '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/api/ai/briefing': typeof ApiAiBriefingRoute
+  '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
+  '/api/ai/summarize-note': typeof ApiAiSummarizeNoteRoute
+  '/api/events/$id': typeof ApiEventsIdRoute
+  '/api/notes/$id': typeof ApiNotesIdRoute
+  '/api/tasks/$id': typeof ApiTasksIdRoute
+  '/api/threads/$id/messages': typeof ApiThreadsIdMessagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/events': typeof ApiEventsRouteWithChildren
+  '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/tasks': typeof ApiTasksRouteWithChildren
+  '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/api/ai/briefing': typeof ApiAiBriefingRoute
+  '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
+  '/api/ai/summarize-note': typeof ApiAiSummarizeNoteRoute
+  '/api/events/$id': typeof ApiEventsIdRoute
+  '/api/notes/$id': typeof ApiNotesIdRoute
+  '/api/tasks/$id': typeof ApiTasksIdRoute
+  '/api/threads/$id/messages': typeof ApiThreadsIdMessagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/api/chat'
+    | '/api/events'
+    | '/api/notes'
+    | '/api/tasks'
+    | '/api/threads'
+    | '/api/ai/briefing'
+    | '/api/ai/suggest-tasks'
+    | '/api/ai/summarize-note'
+    | '/api/events/$id'
+    | '/api/notes/$id'
+    | '/api/tasks/$id'
+    | '/api/threads/$id/messages'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/api/chat'
+    | '/api/events'
+    | '/api/notes'
+    | '/api/tasks'
+    | '/api/threads'
+    | '/api/ai/briefing'
+    | '/api/ai/suggest-tasks'
+    | '/api/ai/summarize-note'
+    | '/api/events/$id'
+    | '/api/notes/$id'
+    | '/api/tasks/$id'
+    | '/api/threads/$id/messages'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/api/chat'
+    | '/api/events'
+    | '/api/notes'
+    | '/api/tasks'
+    | '/api/threads'
+    | '/api/ai/briefing'
+    | '/api/ai/suggest-tasks'
+    | '/api/ai/summarize-note'
+    | '/api/events/$id'
+    | '/api/notes/$id'
+    | '/api/tasks/$id'
+    | '/api/threads/$id/messages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
+  ApiChatRoute: typeof ApiChatRoute
+  ApiEventsRoute: typeof ApiEventsRouteWithChildren
+  ApiNotesRoute: typeof ApiNotesRouteWithChildren
+  ApiTasksRoute: typeof ApiTasksRouteWithChildren
+  ApiThreadsRoute: typeof ApiThreadsRouteWithChildren
+  ApiAiBriefingRoute: typeof ApiAiBriefingRoute
+  ApiAiSuggestTasksRoute: typeof ApiAiSuggestTasksRoute
+  ApiAiSummarizeNoteRoute: typeof ApiAiSummarizeNoteRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +244,154 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/threads': {
+      id: '/api/threads'
+      path: '/api/threads'
+      fullPath: '/api/threads'
+      preLoaderRoute: typeof ApiThreadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tasks': {
+      id: '/api/tasks'
+      path: '/api/tasks'
+      fullPath: '/api/tasks'
+      preLoaderRoute: typeof ApiTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/notes': {
+      id: '/api/notes'
+      path: '/api/notes'
+      fullPath: '/api/notes'
+      preLoaderRoute: typeof ApiNotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/events': {
+      id: '/api/events'
+      path: '/api/events'
+      fullPath: '/api/events'
+      preLoaderRoute: typeof ApiEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tasks/$id': {
+      id: '/api/tasks/$id'
+      path: '/$id'
+      fullPath: '/api/tasks/$id'
+      preLoaderRoute: typeof ApiTasksIdRouteImport
+      parentRoute: typeof ApiTasksRoute
+    }
+    '/api/notes/$id': {
+      id: '/api/notes/$id'
+      path: '/$id'
+      fullPath: '/api/notes/$id'
+      preLoaderRoute: typeof ApiNotesIdRouteImport
+      parentRoute: typeof ApiNotesRoute
+    }
+    '/api/events/$id': {
+      id: '/api/events/$id'
+      path: '/$id'
+      fullPath: '/api/events/$id'
+      preLoaderRoute: typeof ApiEventsIdRouteImport
+      parentRoute: typeof ApiEventsRoute
+    }
+    '/api/ai/summarize-note': {
+      id: '/api/ai/summarize-note'
+      path: '/api/ai/summarize-note'
+      fullPath: '/api/ai/summarize-note'
+      preLoaderRoute: typeof ApiAiSummarizeNoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ai/suggest-tasks': {
+      id: '/api/ai/suggest-tasks'
+      path: '/api/ai/suggest-tasks'
+      fullPath: '/api/ai/suggest-tasks'
+      preLoaderRoute: typeof ApiAiSuggestTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ai/briefing': {
+      id: '/api/ai/briefing'
+      path: '/api/ai/briefing'
+      fullPath: '/api/ai/briefing'
+      preLoaderRoute: typeof ApiAiBriefingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/threads/$id/messages': {
+      id: '/api/threads/$id/messages'
+      path: '/$id/messages'
+      fullPath: '/api/threads/$id/messages'
+      preLoaderRoute: typeof ApiThreadsIdMessagesRouteImport
+      parentRoute: typeof ApiThreadsRoute
+    }
   }
 }
 
+interface ApiEventsRouteChildren {
+  ApiEventsIdRoute: typeof ApiEventsIdRoute
+}
+
+const ApiEventsRouteChildren: ApiEventsRouteChildren = {
+  ApiEventsIdRoute: ApiEventsIdRoute,
+}
+
+const ApiEventsRouteWithChildren = ApiEventsRoute._addFileChildren(
+  ApiEventsRouteChildren,
+)
+
+interface ApiNotesRouteChildren {
+  ApiNotesIdRoute: typeof ApiNotesIdRoute
+}
+
+const ApiNotesRouteChildren: ApiNotesRouteChildren = {
+  ApiNotesIdRoute: ApiNotesIdRoute,
+}
+
+const ApiNotesRouteWithChildren = ApiNotesRoute._addFileChildren(
+  ApiNotesRouteChildren,
+)
+
+interface ApiTasksRouteChildren {
+  ApiTasksIdRoute: typeof ApiTasksIdRoute
+}
+
+const ApiTasksRouteChildren: ApiTasksRouteChildren = {
+  ApiTasksIdRoute: ApiTasksIdRoute,
+}
+
+const ApiTasksRouteWithChildren = ApiTasksRoute._addFileChildren(
+  ApiTasksRouteChildren,
+)
+
+interface ApiThreadsRouteChildren {
+  ApiThreadsIdMessagesRoute: typeof ApiThreadsIdMessagesRoute
+}
+
+const ApiThreadsRouteChildren: ApiThreadsRouteChildren = {
+  ApiThreadsIdMessagesRoute: ApiThreadsIdMessagesRoute,
+}
+
+const ApiThreadsRouteWithChildren = ApiThreadsRoute._addFileChildren(
+  ApiThreadsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
+  ApiChatRoute: ApiChatRoute,
+  ApiEventsRoute: ApiEventsRouteWithChildren,
+  ApiNotesRoute: ApiNotesRouteWithChildren,
+  ApiTasksRoute: ApiTasksRouteWithChildren,
+  ApiThreadsRoute: ApiThreadsRouteWithChildren,
+  ApiAiBriefingRoute: ApiAiBriefingRoute,
+  ApiAiSuggestTasksRoute: ApiAiSuggestTasksRoute,
+  ApiAiSummarizeNoteRoute: ApiAiSummarizeNoteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
