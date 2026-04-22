@@ -10,33 +10,112 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTasksRouteImport } from './routes/api/tasks'
+import { Route as ApiNotesRouteImport } from './routes/api/notes'
+import { Route as ApiEventsRouteImport } from './routes/api/events'
+import { Route as ApiTasksIdRouteImport } from './routes/api/tasks.$id'
+import { Route as ApiNotesIdRouteImport } from './routes/api/notes.$id'
+import { Route as ApiEventsIdRouteImport } from './routes/api/events.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTasksRoute = ApiTasksRouteImport.update({
+  id: '/api/tasks',
+  path: '/api/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNotesRoute = ApiNotesRouteImport.update({
+  id: '/api/notes',
+  path: '/api/notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEventsRoute = ApiEventsRouteImport.update({
+  id: '/api/events',
+  path: '/api/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTasksIdRoute = ApiTasksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiTasksRoute,
+} as any)
+const ApiNotesIdRoute = ApiNotesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiNotesRoute,
+} as any)
+const ApiEventsIdRoute = ApiEventsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiEventsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/events': typeof ApiEventsRouteWithChildren
+  '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/tasks': typeof ApiTasksRouteWithChildren
+  '/api/events/$id': typeof ApiEventsIdRoute
+  '/api/notes/$id': typeof ApiNotesIdRoute
+  '/api/tasks/$id': typeof ApiTasksIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/events': typeof ApiEventsRouteWithChildren
+  '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/tasks': typeof ApiTasksRouteWithChildren
+  '/api/events/$id': typeof ApiEventsIdRoute
+  '/api/notes/$id': typeof ApiNotesIdRoute
+  '/api/tasks/$id': typeof ApiTasksIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/events': typeof ApiEventsRouteWithChildren
+  '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/tasks': typeof ApiTasksRouteWithChildren
+  '/api/events/$id': typeof ApiEventsIdRoute
+  '/api/notes/$id': typeof ApiNotesIdRoute
+  '/api/tasks/$id': typeof ApiTasksIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/events'
+    | '/api/notes'
+    | '/api/tasks'
+    | '/api/events/$id'
+    | '/api/notes/$id'
+    | '/api/tasks/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/events'
+    | '/api/notes'
+    | '/api/tasks'
+    | '/api/events/$id'
+    | '/api/notes/$id'
+    | '/api/tasks/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/events'
+    | '/api/notes'
+    | '/api/tasks'
+    | '/api/events/$id'
+    | '/api/notes/$id'
+    | '/api/tasks/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiEventsRoute: typeof ApiEventsRouteWithChildren
+  ApiNotesRoute: typeof ApiNotesRouteWithChildren
+  ApiTasksRoute: typeof ApiTasksRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +127,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/tasks': {
+      id: '/api/tasks'
+      path: '/api/tasks'
+      fullPath: '/api/tasks'
+      preLoaderRoute: typeof ApiTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/notes': {
+      id: '/api/notes'
+      path: '/api/notes'
+      fullPath: '/api/notes'
+      preLoaderRoute: typeof ApiNotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/events': {
+      id: '/api/events'
+      path: '/api/events'
+      fullPath: '/api/events'
+      preLoaderRoute: typeof ApiEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tasks/$id': {
+      id: '/api/tasks/$id'
+      path: '/$id'
+      fullPath: '/api/tasks/$id'
+      preLoaderRoute: typeof ApiTasksIdRouteImport
+      parentRoute: typeof ApiTasksRoute
+    }
+    '/api/notes/$id': {
+      id: '/api/notes/$id'
+      path: '/$id'
+      fullPath: '/api/notes/$id'
+      preLoaderRoute: typeof ApiNotesIdRouteImport
+      parentRoute: typeof ApiNotesRoute
+    }
+    '/api/events/$id': {
+      id: '/api/events/$id'
+      path: '/$id'
+      fullPath: '/api/events/$id'
+      preLoaderRoute: typeof ApiEventsIdRouteImport
+      parentRoute: typeof ApiEventsRoute
+    }
   }
 }
 
+interface ApiEventsRouteChildren {
+  ApiEventsIdRoute: typeof ApiEventsIdRoute
+}
+
+const ApiEventsRouteChildren: ApiEventsRouteChildren = {
+  ApiEventsIdRoute: ApiEventsIdRoute,
+}
+
+const ApiEventsRouteWithChildren = ApiEventsRoute._addFileChildren(
+  ApiEventsRouteChildren,
+)
+
+interface ApiNotesRouteChildren {
+  ApiNotesIdRoute: typeof ApiNotesIdRoute
+}
+
+const ApiNotesRouteChildren: ApiNotesRouteChildren = {
+  ApiNotesIdRoute: ApiNotesIdRoute,
+}
+
+const ApiNotesRouteWithChildren = ApiNotesRoute._addFileChildren(
+  ApiNotesRouteChildren,
+)
+
+interface ApiTasksRouteChildren {
+  ApiTasksIdRoute: typeof ApiTasksIdRoute
+}
+
+const ApiTasksRouteChildren: ApiTasksRouteChildren = {
+  ApiTasksIdRoute: ApiTasksIdRoute,
+}
+
+const ApiTasksRouteWithChildren = ApiTasksRoute._addFileChildren(
+  ApiTasksRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiEventsRoute: ApiEventsRouteWithChildren,
+  ApiNotesRoute: ApiNotesRouteWithChildren,
+  ApiTasksRoute: ApiTasksRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
