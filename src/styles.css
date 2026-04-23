@@ -151,10 +151,22 @@
     border-color: var(--color-border);
   }
 
+  html {
+    color-scheme: light dark;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     -webkit-font-smoothing: antialiased;
+    transition: background-color 300ms ease, color 300ms ease;
+  }
+
+  body,
+  body * {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-duration: 250ms;
+    transition-timing-function: ease;
   }
 
   .dark body {
