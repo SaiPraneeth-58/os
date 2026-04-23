@@ -26,7 +26,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="h-14 border-b border-border bg-card/50 backdrop-blur sticky top-0 z-10">
+      <header className="h-14 border-b border-border/60 bg-background/40 backdrop-blur-xl sticky top-0 z-10">
         <div className="h-full max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-2 font-semibold tracking-tight">
             <Sparkles className="h-4 w-4 text-primary" />
