@@ -1,15 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
-import { Brain, Calendar, CheckSquare, FileText, LayoutDashboard, LogOut, Sparkles } from "lucide-react";
+import { Brain, Calendar, CheckSquare, FileText, FolderKanban, LayoutDashboard, LogOut, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OverviewPanel } from "@/components/dashboard/OverviewPanel";
 import { TasksPanel } from "@/components/dashboard/TasksPanel";
 import { NotesPanel } from "@/components/dashboard/NotesPanel";
 import { CalendarPanel } from "@/components/dashboard/CalendarPanel";
 import { ChatPanel } from "@/components/dashboard/ChatPanel";
+import { ProjectsPanel } from "@/components/dashboard/ProjectsPanel";
 
-type TabId = "overview" | "tasks" | "notes" | "calendar" | "chat";
+type TabId = "overview" | "projects" | "tasks" | "notes" | "calendar" | "chat";
 
 export const Route = createFileRoute("/dashboard")({ component: Dashboard });
 
@@ -28,6 +29,7 @@ function Dashboard() {
 
   const items: { id: TabId; label: string; icon: typeof LayoutDashboard }[] = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
+    { id: "projects", label: "Projects", icon: FolderKanban },
     { id: "tasks", label: "Tasks", icon: CheckSquare },
     { id: "notes", label: "Notes", icon: FileText },
     { id: "calendar", label: "Calendar", icon: Calendar },
@@ -64,6 +66,7 @@ function Dashboard() {
       <main className="flex-1 overflow-auto">
         <div className="max-w-6xl mx-auto p-6">
           {tab === "overview" && <OverviewPanel onNavigate={setTab} />}
+          {tab === "projects" && <ProjectsPanel />}
           {tab === "tasks" && <TasksPanel />}
           {tab === "notes" && <NotesPanel />}
           {tab === "calendar" && <CalendarPanel />}
