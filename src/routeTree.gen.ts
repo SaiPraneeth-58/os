@@ -14,6 +14,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiThreadsRouteImport } from './routes/api/threads'
 import { Route as ApiTasksRouteImport } from './routes/api/tasks'
+import { Route as ApiProjectsRouteImport } from './routes/api/projects'
 import { Route as ApiNotesRouteImport } from './routes/api/notes'
 import { Route as ApiEventsRouteImport } from './routes/api/events'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -48,6 +49,11 @@ const ApiThreadsRoute = ApiThreadsRouteImport.update({
 const ApiTasksRoute = ApiTasksRouteImport.update({
   id: '/api/tasks',
   path: '/api/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProjectsRoute = ApiProjectsRouteImport.update({
+  id: '/api/projects',
+  path: '/api/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiNotesRoute = ApiNotesRouteImport.update({
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/events': typeof ApiEventsRouteWithChildren
   '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
   '/api/ai/briefing': typeof ApiAiBriefingRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/events': typeof ApiEventsRouteWithChildren
   '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
   '/api/ai/briefing': typeof ApiAiBriefingRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/events': typeof ApiEventsRouteWithChildren
   '/api/notes': typeof ApiNotesRouteWithChildren
+  '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
   '/api/ai/briefing': typeof ApiAiBriefingRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/events'
     | '/api/notes'
+    | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
     | '/api/ai/briefing'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/events'
     | '/api/notes'
+    | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
     | '/api/ai/briefing'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/events'
     | '/api/notes'
+    | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
     | '/api/ai/briefing'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiEventsRoute: typeof ApiEventsRouteWithChildren
   ApiNotesRoute: typeof ApiNotesRouteWithChildren
+  ApiProjectsRoute: typeof ApiProjectsRoute
   ApiTasksRoute: typeof ApiTasksRouteWithChildren
   ApiThreadsRoute: typeof ApiThreadsRouteWithChildren
   ApiAiBriefingRoute: typeof ApiAiBriefingRoute
@@ -256,6 +269,13 @@ declare module '@tanstack/react-router' {
       path: '/api/tasks'
       fullPath: '/api/tasks'
       preLoaderRoute: typeof ApiTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/projects': {
+      id: '/api/projects'
+      path: '/api/projects'
+      fullPath: '/api/projects'
+      preLoaderRoute: typeof ApiProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/notes': {
@@ -386,6 +406,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiEventsRoute: ApiEventsRouteWithChildren,
   ApiNotesRoute: ApiNotesRouteWithChildren,
+  ApiProjectsRoute: ApiProjectsRoute,
   ApiTasksRoute: ApiTasksRouteWithChildren,
   ApiThreadsRoute: ApiThreadsRouteWithChildren,
   ApiAiBriefingRoute: ApiAiBriefingRoute,
