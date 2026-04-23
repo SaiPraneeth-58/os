@@ -133,81 +133,85 @@ export function ProjectsPanel() {
   const list = projects.data?.projects ?? [];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-5">
       {/* Add Project */}
-      <aside className="lg:sticky lg:top-20 self-start">
+      <aside className="lg:sticky lg:top-[4.5rem] self-start">
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-sm font-medium">
-              <Plus className="h-4 w-4 text-primary" /> Add project
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <Plus className="h-3.5 w-3.5 text-primary" /> New project
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2.5">
             <Input
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              className="h-8 text-sm"
             />
             <Textarea
               placeholder="Description"
-              rows={4}
+              rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              className="text-sm"
             />
             <Button
               size="sm"
-              className="w-full"
+              className="w-full h-8"
               onClick={() => create.mutate({ title, description })}
               disabled={!title.trim() || create.isPending}
             >
-              {create.isPending ? "Adding…" : "Add"}
+              {create.isPending ? "Adding…" : "Add project"}
             </Button>
           </CardContent>
         </Card>
       </aside>
 
       {/* Grid */}
-      <section className="space-y-4">
-        <div className="flex items-baseline justify-between">
-          <h1 className="text-xl font-semibold tracking-tight">Projects</h1>
-          <span className="text-xs text-muted-foreground">{list.length} total</span>
+      <section className="space-y-3">
+        <div className="flex items-baseline justify-between px-0.5">
+          <h1 className="text-base font-semibold tracking-tight">Projects</h1>
+          <span className="text-[11px] text-muted-foreground tabular-nums">
+            {list.length} total
+          </span>
         </div>
 
         {projects.isLoading && (
-          <p className="text-sm text-muted-foreground">Loading…</p>
+          <p className="text-xs text-muted-foreground">Loading…</p>
         )}
         {projects.isError && (
-          <p className="text-sm text-destructive">Failed to load projects.</p>
+          <p className="text-xs text-destructive">Failed to load projects.</p>
         )}
 
         {projects.data && list.length === 0 && (
           <Card className="border-dashed">
-            <CardContent className="py-10 text-center text-sm text-muted-foreground">
+            <CardContent className="py-8 text-center text-xs text-muted-foreground">
               No projects yet — add your first one on the left.
             </CardContent>
           </Card>
         )}
 
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
           {list.map((p) => {
             const editing = editingId === p.id;
             return (
-              <Card key={p.id} className="flex flex-col">
-                <CardHeader className="pb-2">
+              <Card key={p.id} className="flex flex-col group">
+                <CardHeader className="pb-1.5">
                   {editing ? (
                     <Input
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
-                      className="h-8 text-sm font-semibold"
+                      className="h-7 text-sm font-semibold"
                     />
                   ) : (
-                    <CardTitle className="text-sm font-bold leading-snug">
+                    <CardTitle className="text-sm font-semibold leading-snug truncate">
                       {p.title}
                     </CardTitle>
                   )}
                 </CardHeader>
 
-                <CardContent className="space-y-3 flex-1 pt-0">
+                <CardContent className="space-y-2.5 flex-1 pt-0">
                   {editing ? (
                     <Textarea
                       value={editDesc}
@@ -217,7 +221,7 @@ export function ProjectsPanel() {
                     />
                   ) : (
                     p.description && (
-                      <p className="text-xs text-muted-foreground whitespace-pre-wrap line-clamp-4">
+                      <p className="text-xs text-muted-foreground whitespace-pre-wrap line-clamp-3 leading-relaxed">
                         {p.description}
                       </p>
                     )
@@ -262,14 +266,14 @@ export function ProjectsPanel() {
                             <Loader2 className="h-3.5 w-3.5 animate-spin" />
                           ) : (
                             <>
-                              <Sparkles className="h-3.5 w-3.5 mr-1" /> AI
+                              <Sparkles className="h-3.5 w-3.5 mr-1" /> Ask Jarvis
                             </>
                           )}
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 text-muted-foreground"
+                          className="h-7 w-7 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                           onClick={() => startEdit(p)}
                           aria-label="Edit"
                         >
@@ -278,7 +282,7 @@ export function ProjectsPanel() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                          className="h-7 w-7 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                           onClick={() => remove.mutate(p.id)}
                           aria-label="Delete"
                         >
@@ -289,7 +293,7 @@ export function ProjectsPanel() {
                   </div>
 
                   {aiResults[p.id] && !editing && (
-                    <div className="rounded-md border border-border bg-accent/40 p-2.5 text-xs leading-relaxed">
+                    <div className="rounded-lg border border-border/60 bg-accent/40 p-2.5 text-xs leading-relaxed animate-fade-in">
                       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
                         <Brain className="h-3 w-3 text-primary" /> Jarvis
                       </div>
