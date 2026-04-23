@@ -34,6 +34,7 @@ export function ProjectsPanel() {
       setTitle("");
       setDescription("");
       qc.invalidateQueries({ queryKey: ["projects"] });
+      toast.success("Project added");
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Failed to add project"),
   });
@@ -64,89 +65,117 @@ export function ProjectsPanel() {
     }
   }
 
+  const list = projects.data?.projects ?? [];
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Projects</h1>
-        <p className="text-muted-foreground mt-1">Manage your projects and let Jarvis summarize them.</p>
-      </div>
+    <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
+      {/* Left: Add Project */}
+      <aside className="lg:sticky lg:top-20 self-start">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-medium">
+              <Plus className="h-4 w-4 text-primary" /> Add project
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Input
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <Textarea
+              placeholder="Description"
+              rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <Button
+              size="sm"
+              className="w-full"
+              onClick={() => create.mutate({ title, description })}
+              disabled={!title.trim() || create.isPending}
+            >
+              {create.isPending ? "Adding…" : "Create"}
+            </Button>
+          </CardContent>
+        </Card>
+      </aside>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Plus className="h-4 w-4 text-primary" /> New project
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <Textarea
-            placeholder="Description"
-            rows={3}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Button
-            onClick={() => create.mutate({ title, description })}
-            disabled={!title.trim() || create.isPending}
-          >
-            {create.isPending ? "Adding…" : "Add project"}
-          </Button>
-        </CardContent>
-      </Card>
+      {/* Right: Projects grid */}
+      <section className="space-y-4">
+        <div className="flex items-baseline justify-between">
+          <h1 className="text-xl font-semibold tracking-tight">Projects</h1>
+          <span className="text-xs text-muted-foreground">{list.length} total</span>
+        </div>
 
-      {projects.isLoading && <p className="text-sm text-muted-foreground">Loading…</p>}
-      {projects.isError && <p className="text-sm text-destructive">Failed to load projects.</p>}
+        {projects.isLoading && (
+          <p className="text-sm text-muted-foreground">Loading…</p>
+        )}
+        {projects.isError && (
+          <p className="text-sm text-destructive">Failed to load projects.</p>
+        )}
 
-      <div className="grid md:grid-cols-2 gap-4">
-        {projects.data?.projects.map((p) => (
-          <Card key={p.id} className="flex flex-col">
-            <CardHeader>
-              <div className="flex items-start justify-between gap-2">
-                <CardTitle className="text-base">{p.title}</CardTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                  onClick={() => remove.mutate(p.id)}
-                  aria-label="Delete project"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3 flex-1">
-              {p.description && (
-                <p className="text-sm text-muted-foreground whitespace-pre-wrap">{p.description}</p>
-              )}
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => summarize(p)}
-                disabled={aiBusy[p.id]}
-              >
-                {aiBusy[p.id] ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Summarizing…</>
-                ) : (
-                  <><Sparkles className="h-4 w-4 mr-2" /> Summarize with Jarvis</>
-                )}
-              </Button>
-
-              {aiResults[p.id] && (
-                <div className="rounded-md border border-border bg-accent/40 p-3 text-sm">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
-                    <Brain className="h-3.5 w-3.5 text-primary" /> Jarvis
-                  </div>
-                  {aiResults[p.id]}
-                </div>
-              )}
+        {projects.data && list.length === 0 && (
+          <Card className="border-dashed">
+            <CardContent className="py-10 text-center text-sm text-muted-foreground">
+              No projects yet — add your first one on the left.
             </CardContent>
           </Card>
-        ))}
-        {projects.data && projects.data.projects.length === 0 && (
-          <p className="text-sm text-muted-foreground">No projects yet.</p>
         )}
-      </div>
+
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          {list.map((p) => (
+            <Card key={p.id} className="flex flex-col">
+              <CardHeader className="pb-2">
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle className="text-sm font-semibold leading-snug">
+                    {p.title}
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 -mt-1 -mr-1 text-muted-foreground hover:text-destructive"
+                    onClick={() => remove.mutate(p.id)}
+                    aria-label="Delete project"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3 flex-1 pt-0">
+                {p.description && (
+                  <p className="text-xs text-muted-foreground whitespace-pre-wrap line-clamp-4">
+                    {p.description}
+                  </p>
+                )}
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full h-8"
+                  onClick={() => summarize(p)}
+                  disabled={aiBusy[p.id]}
+                >
+                  {aiBusy[p.id] ? (
+                    <><Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> Summarizing…</>
+                  ) : (
+                    <><Sparkles className="h-3.5 w-3.5 mr-2" /> Ask Jarvis</>
+                  )}
+                </Button>
+
+                {aiResults[p.id] && (
+                  <div className="rounded-md border border-border bg-accent/40 p-2.5 text-xs leading-relaxed">
+                    <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
+                      <Brain className="h-3 w-3 text-primary" /> Jarvis
+                    </div>
+                    {aiResults[p.id]}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
