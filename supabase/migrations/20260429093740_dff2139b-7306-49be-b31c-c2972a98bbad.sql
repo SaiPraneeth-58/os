@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.bump_thread_last_message_at() FROM PUBLIC, anon, authenticated;
