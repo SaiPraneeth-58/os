@@ -14,8 +14,10 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardTasksRouteImport } from './routes/dashboard.tasks'
+import { Route as DashboardPomodoroRouteImport } from './routes/dashboard.pomodoro'
 import { Route as DashboardNotesRouteImport } from './routes/dashboard.notes'
 import { Route as DashboardChatRouteImport } from './routes/dashboard.chat'
+import { Route as DashboardCalendarRouteImport } from './routes/dashboard.calendar'
 import { Route as DashboardBookmarksRouteImport } from './routes/dashboard.bookmarks'
 import { Route as ApiThreadsRouteImport } from './routes/api/threads'
 import { Route as ApiTasksRouteImport } from './routes/api/tasks'
@@ -58,6 +60,11 @@ const DashboardTasksRoute = DashboardTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardPomodoroRoute = DashboardPomodoroRouteImport.update({
+  id: '/pomodoro',
+  path: '/pomodoro',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardNotesRoute = DashboardNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
@@ -66,6 +73,11 @@ const DashboardNotesRoute = DashboardNotesRouteImport.update({
 const DashboardChatRoute = DashboardChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCalendarRoute = DashboardCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardBookmarksRoute = DashboardBookmarksRouteImport.update({
@@ -162,8 +174,10 @@ export interface FileRoutesByFullPath {
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
   '/dashboard/bookmarks': typeof DashboardBookmarksRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/chat': typeof DashboardChatRoute
   '/dashboard/notes': typeof DashboardNotesRoute
+  '/dashboard/pomodoro': typeof DashboardPomodoroRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
@@ -186,8 +200,10 @@ export interface FileRoutesByTo {
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
   '/dashboard/bookmarks': typeof DashboardBookmarksRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/chat': typeof DashboardChatRoute
   '/dashboard/notes': typeof DashboardNotesRoute
+  '/dashboard/pomodoro': typeof DashboardPomodoroRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
@@ -212,8 +228,10 @@ export interface FileRoutesById {
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
   '/dashboard/bookmarks': typeof DashboardBookmarksRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/chat': typeof DashboardChatRoute
   '/dashboard/notes': typeof DashboardNotesRoute
+  '/dashboard/pomodoro': typeof DashboardPomodoroRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
@@ -239,8 +257,10 @@ export interface FileRouteTypes {
     | '/api/tasks'
     | '/api/threads'
     | '/dashboard/bookmarks'
+    | '/dashboard/calendar'
     | '/dashboard/chat'
     | '/dashboard/notes'
+    | '/dashboard/pomodoro'
     | '/dashboard/tasks'
     | '/dashboard/'
     | '/api/ai/briefing'
@@ -263,8 +283,10 @@ export interface FileRouteTypes {
     | '/api/tasks'
     | '/api/threads'
     | '/dashboard/bookmarks'
+    | '/dashboard/calendar'
     | '/dashboard/chat'
     | '/dashboard/notes'
+    | '/dashboard/pomodoro'
     | '/dashboard/tasks'
     | '/dashboard'
     | '/api/ai/briefing'
@@ -288,8 +310,10 @@ export interface FileRouteTypes {
     | '/api/tasks'
     | '/api/threads'
     | '/dashboard/bookmarks'
+    | '/dashboard/calendar'
     | '/dashboard/chat'
     | '/dashboard/notes'
+    | '/dashboard/pomodoro'
     | '/dashboard/tasks'
     | '/dashboard/'
     | '/api/ai/briefing'
@@ -352,6 +376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTasksRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/pomodoro': {
+      id: '/dashboard/pomodoro'
+      path: '/pomodoro'
+      fullPath: '/dashboard/pomodoro'
+      preLoaderRoute: typeof DashboardPomodoroRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/notes': {
       id: '/dashboard/notes'
       path: '/notes'
@@ -364,6 +395,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/dashboard/chat'
       preLoaderRoute: typeof DashboardChatRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/calendar': {
+      id: '/dashboard/calendar'
+      path: '/calendar'
+      fullPath: '/dashboard/calendar'
+      preLoaderRoute: typeof DashboardCalendarRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/bookmarks': {
@@ -483,16 +521,20 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteChildren {
   DashboardBookmarksRoute: typeof DashboardBookmarksRoute
+  DashboardCalendarRoute: typeof DashboardCalendarRoute
   DashboardChatRoute: typeof DashboardChatRoute
   DashboardNotesRoute: typeof DashboardNotesRoute
+  DashboardPomodoroRoute: typeof DashboardPomodoroRoute
   DashboardTasksRoute: typeof DashboardTasksRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardBookmarksRoute: DashboardBookmarksRoute,
+  DashboardCalendarRoute: DashboardCalendarRoute,
   DashboardChatRoute: DashboardChatRoute,
   DashboardNotesRoute: DashboardNotesRoute,
+  DashboardPomodoroRoute: DashboardPomodoroRoute,
   DashboardTasksRoute: DashboardTasksRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
