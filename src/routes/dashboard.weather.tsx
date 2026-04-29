@@ -22,22 +22,13 @@ function WeatherPage() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["weather", submitted],
     queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke<WeatherData>("get-weather", {
-        body: null,
-        method: "GET",
-        // Edge functions don't accept query params via invoke; pass as body header trick:
-      } as never);
-      // Fallback: invoke does support query via URL — use direct fetch instead
-      if (error || !data) {
-        const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-weather?q=${encodeURIComponent(submitted)}`;
-        const session = await supabase.auth.getSession();
-        const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${session.data.session?.access_token ?? ""}` },
-        });
-        if (!res.ok) throw new Error("Weather fetch failed");
-        return (await res.json()) as WeatherData;
-      }
-      return data;
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-weather?q=${encodeURIComponent(submitted)}`;
+      const session = await supabase.auth.getSession();
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${session.data.session?.access_token ?? ""}` },
+      });
+      if (!res.ok) throw new Error("Weather fetch failed");
+      return (await res.json()) as WeatherData;
     },
   });
 
