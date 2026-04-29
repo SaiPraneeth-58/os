@@ -10,7 +10,7 @@ import {
   Timer,
   Cloud,
   Newspaper,
-  Github,
+  Code2,
   TrendingUp,
   Rss,
   Users,
@@ -57,7 +57,7 @@ const sections: { label: string; items: { title: string; url: string; icon: type
     items: [
       { title: "Weather", url: "/dashboard/weather", icon: Cloud },
       { title: "News", url: "/dashboard/news", icon: Newspaper },
-      { title: "GitHub", url: "/dashboard/github", icon: Github },
+      { title: "GitHub", url: "/dashboard/github", icon: Code2 },
       { title: "Markets", url: "/dashboard/markets", icon: TrendingUp },
       { title: "RSS", url: "/dashboard/rss", icon: Rss },
     ],
