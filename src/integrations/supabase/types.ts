@@ -14,7 +14,175 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      project_daily_log: {
+        Row: {
+          created_at: string
+          id: string
+          log_date: string
+          note: string | null
+          progress_end: number
+          progress_start: number
+          project_id: string
+          updated_at: string
+          user_id: string
+          worked_marked: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          log_date?: string
+          note?: string | null
+          progress_end?: number
+          progress_start?: number
+          project_id: string
+          updated_at?: string
+          user_id: string
+          worked_marked?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          log_date?: string
+          note?: string | null
+          progress_end?: number
+          progress_start?: number
+          project_id?: string
+          updated_at?: string
+          user_id?: string
+          worked_marked?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_daily_log_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          created_at: string
+          daily_note: string | null
+          description: string | null
+          id: string
+          last_progress_change_at: string | null
+          progress: number
+          progress_overridden: boolean
+          title: string
+          updated_at: string
+          user_id: string
+          worked_on_date: string | null
+        }
+        Insert: {
+          created_at?: string
+          daily_note?: string | null
+          description?: string | null
+          id?: string
+          last_progress_change_at?: string | null
+          progress?: number
+          progress_overridden?: boolean
+          title: string
+          updated_at?: string
+          user_id: string
+          worked_on_date?: string | null
+        }
+        Update: {
+          created_at?: string
+          daily_note?: string | null
+          description?: string | null
+          id?: string
+          last_progress_change_at?: string | null
+          progress?: number
+          progress_overridden?: boolean
+          title?: string
+          updated_at?: string
+          user_id?: string
+          worked_on_date?: string | null
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          ai_generated: boolean
+          created_at: string
+          description: string | null
+          due_at: string | null
+          id: string
+          priority: string
+          project_id: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_generated?: boolean
+          created_at?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          priority?: string
+          project_id?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_generated?: boolean
+          created_at?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          priority?: string
+          project_id?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_email_prefs: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          manager_email: string
+          send_hour_ist: number
+          send_minute_ist: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          manager_email: string
+          send_hour_ist?: number
+          send_minute_ist?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          manager_email?: string
+          send_hour_ist?: number
+          send_minute_ist?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
