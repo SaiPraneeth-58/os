@@ -1,10 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
-import { LogOut, Sparkles } from "lucide-react";
+import { LogOut, Command as CommandIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ProjectsPanel } from "@/components/dashboard/ProjectsPanel";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
+import { CommandPalette } from "@/components/CommandPalette";
+import { GreetingHeader } from "@/components/dashboard/GreetingHeader";
+import { StatsCards } from "@/components/dashboard/StatsCards";
 
 export const Route = createFileRoute("/dashboard")({ component: Dashboard });
 
@@ -25,27 +31,55 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="h-14 border-b border-border/60 bg-background/40 backdrop-blur-xl sticky top-0 z-10">
-        <div className="h-full max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-semibold tracking-tight">
-            <Sparkles className="h-4 w-4 text-primary" />
-            JARVIS OS
-          </div>
-          <div className="flex items-center gap-1">
-            <ThemeToggle />
-            <Button variant="ghost" size="sm" onClick={() => signOut()}>
-              <LogOut className="h-4 w-4 mr-2" /> Logout
-            </Button>
-          </div>
-        </div>
-      </header>
+    <SidebarProvider>
+      <AnimatedBackground />
+      <CommandPalette />
+      <div className="min-h-screen flex w-full text-foreground">
+        <AppSidebar />
 
-      <main className="flex-1">
-        <div className="max-w-6xl mx-auto px-5 py-6">
-          <ProjectsPanel />
+        <div className="flex-1 flex min-w-0 flex-col">
+          <header className="sticky top-0 z-10 h-14 border-b border-border/60 bg-background/40 backdrop-blur-xl">
+            <div className="h-full px-4 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger />
+                <span className="text-sm text-muted-foreground hidden sm:inline">
+                  Welcome back
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden md:inline-flex gap-2 text-muted-foreground"
+                  onClick={() => {
+                    window.dispatchEvent(
+                      new KeyboardEvent("keydown", { key: "k", metaKey: true }),
+                    );
+                  }}
+                >
+                  <CommandIcon className="h-3.5 w-3.5" />
+                  <span>Search</span>
+                  <kbd className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono">
+                    ⌘K
+                  </kbd>
+                </Button>
+                <ThemeToggle />
+                <Button variant="ghost" size="sm" onClick={() => signOut()}>
+                  <LogOut className="h-4 w-4 mr-2" /> Logout
+                </Button>
+              </div>
+            </div>
+          </header>
+
+          <main className="flex-1">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+              <GreetingHeader />
+              <StatsCards />
+              <ProjectsPanel />
+            </div>
+          </main>
         </div>
-      </main>
-    </div>
+      </div>
+    </SidebarProvider>
   );
 }
