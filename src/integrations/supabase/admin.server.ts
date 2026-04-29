@@ -1,19 +1,36 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 // SERVER ONLY — never import from client code.
-const SUPABASE_URL = process.env.SUPABASE_URL ?? import.meta.env.VITE_SUPABASE_URL ?? "";
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.JARVIS_SUPABASE_SERVICE_ROLE_KEY ?? "";
-
-if (!serviceKey) {
-  console.warn("SUPABASE_SERVICE_ROLE_KEY not set");
+function getEnv() {
+  const url =
+    process.env.SUPABASE_URL ??
+    (typeof import.meta !== "undefined" ? (import.meta as any).env?.VITE_SUPABASE_URL : "") ??
+    "";
+  const serviceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.JARVIS_SUPABASE_SERVICE_ROLE_KEY ??
+    "";
+  if (!url) throw new Error("SUPABASE_URL not set");
+  if (!serviceKey) throw new Error("SUPABASE_SERVICE_ROLE_KEY not set");
+  return { url, serviceKey };
 }
 
-export const supabaseAdmin = createClient(SUPABASE_URL, serviceKey, {
-  auth: { persistSession: false, autoRefreshToken: false },
+let _admin: SupabaseClient | undefined;
+export const supabaseAdmin = new Proxy({} as SupabaseClient, {
+  get(_t, prop, receiver) {
+    if (!_admin) {
+      const { url, serviceKey } = getEnv();
+      _admin = createClient(url, serviceKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+    }
+    return Reflect.get(_admin, prop, receiver);
+  },
 });
 
 export function supabaseForUser(accessToken: string) {
-  return createClient(SUPABASE_URL, serviceKey, {
+  const { url, serviceKey } = getEnv();
+  return createClient(url, serviceKey, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: { headers: { Authorization: `Bearer ${accessToken}` } },
   });
