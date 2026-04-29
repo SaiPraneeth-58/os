@@ -17,6 +17,7 @@ import { Route as ApiTasksRouteImport } from './routes/api/tasks'
 import { Route as ApiProjectsRouteImport } from './routes/api/projects'
 import { Route as ApiNotesRouteImport } from './routes/api/notes'
 import { Route as ApiEventsRouteImport } from './routes/api/events'
+import { Route as ApiEmailPrefsRouteImport } from './routes/api/email-prefs'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiAiRouteImport } from './routes/api/ai'
 import { Route as ApiTasksIdRouteImport } from './routes/api/tasks.$id'
@@ -65,6 +66,11 @@ const ApiNotesRoute = ApiNotesRouteImport.update({
 const ApiEventsRoute = ApiEventsRouteImport.update({
   id: '/api/events',
   path: '/api/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEmailPrefsRoute = ApiEmailPrefsRouteImport.update({
+  id: '/api/email-prefs',
+  path: '/api/email-prefs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
+  '/api/email-prefs': typeof ApiEmailPrefsRoute
   '/api/events': typeof ApiEventsRouteWithChildren
   '/api/notes': typeof ApiNotesRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
+  '/api/email-prefs': typeof ApiEmailPrefsRoute
   '/api/events': typeof ApiEventsRouteWithChildren
   '/api/notes': typeof ApiNotesRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
+  '/api/email-prefs': typeof ApiEmailPrefsRoute
   '/api/events': typeof ApiEventsRouteWithChildren
   '/api/notes': typeof ApiNotesRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/ai'
     | '/api/chat'
+    | '/api/email-prefs'
     | '/api/events'
     | '/api/notes'
     | '/api/projects'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/ai'
     | '/api/chat'
+    | '/api/email-prefs'
     | '/api/events'
     | '/api/notes'
     | '/api/projects'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/ai'
     | '/api/chat'
+    | '/api/email-prefs'
     | '/api/events'
     | '/api/notes'
     | '/api/projects'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ApiAiRoute: typeof ApiAiRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
+  ApiEmailPrefsRoute: typeof ApiEmailPrefsRoute
   ApiEventsRoute: typeof ApiEventsRouteWithChildren
   ApiNotesRoute: typeof ApiNotesRouteWithChildren
   ApiProjectsRoute: typeof ApiProjectsRoute
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/api/events'
       fullPath: '/api/events'
       preLoaderRoute: typeof ApiEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/email-prefs': {
+      id: '/api/email-prefs'
+      path: '/api/email-prefs'
+      fullPath: '/api/email-prefs'
+      preLoaderRoute: typeof ApiEmailPrefsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -436,6 +456,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ApiAiRoute: ApiAiRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
+  ApiEmailPrefsRoute: ApiEmailPrefsRoute,
   ApiEventsRoute: ApiEventsRouteWithChildren,
   ApiNotesRoute: ApiNotesRouteWithChildren,
   ApiProjectsRoute: ApiProjectsRoute,
@@ -445,12 +466,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
