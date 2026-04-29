@@ -2,3 +2,6 @@ project_id = "ddiaczyruoxlbfnkljyc"
 
 [functions.jarvis-chat]
 verify_jwt = true
+
+[functions.ai-note]
+verify_jwt = true
