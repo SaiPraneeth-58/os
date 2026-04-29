@@ -13,7 +13,10 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardTasksRouteImport } from './routes/dashboard.tasks'
+import { Route as DashboardNotesRouteImport } from './routes/dashboard.notes'
 import { Route as DashboardChatRouteImport } from './routes/dashboard.chat'
+import { Route as DashboardBookmarksRouteImport } from './routes/dashboard.bookmarks'
 import { Route as ApiThreadsRouteImport } from './routes/api/threads'
 import { Route as ApiTasksRouteImport } from './routes/api/tasks'
 import { Route as ApiProjectsRouteImport } from './routes/api/projects'
@@ -50,9 +53,24 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardTasksRoute = DashboardTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardNotesRoute = DashboardNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardChatRoute = DashboardChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardBookmarksRoute = DashboardBookmarksRouteImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
   getParentRoute: () => DashboardRoute,
 } as any)
 const ApiThreadsRoute = ApiThreadsRouteImport.update({
@@ -143,7 +161,10 @@ export interface FileRoutesByFullPath {
   '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/dashboard/bookmarks': typeof DashboardBookmarksRoute
   '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/notes': typeof DashboardNotesRoute
+  '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
@@ -164,7 +185,10 @@ export interface FileRoutesByTo {
   '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/dashboard/bookmarks': typeof DashboardBookmarksRoute
   '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/notes': typeof DashboardNotesRoute
+  '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
@@ -187,7 +211,10 @@ export interface FileRoutesById {
   '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/dashboard/bookmarks': typeof DashboardBookmarksRoute
   '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/notes': typeof DashboardNotesRoute
+  '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
@@ -211,7 +238,10 @@ export interface FileRouteTypes {
     | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
+    | '/dashboard/bookmarks'
     | '/dashboard/chat'
+    | '/dashboard/notes'
+    | '/dashboard/tasks'
     | '/dashboard/'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
@@ -232,7 +262,10 @@ export interface FileRouteTypes {
     | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
+    | '/dashboard/bookmarks'
     | '/dashboard/chat'
+    | '/dashboard/notes'
+    | '/dashboard/tasks'
     | '/dashboard'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
@@ -254,7 +287,10 @@ export interface FileRouteTypes {
     | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
+    | '/dashboard/bookmarks'
     | '/dashboard/chat'
+    | '/dashboard/notes'
+    | '/dashboard/tasks'
     | '/dashboard/'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
@@ -309,11 +345,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/tasks': {
+      id: '/dashboard/tasks'
+      path: '/tasks'
+      fullPath: '/dashboard/tasks'
+      preLoaderRoute: typeof DashboardTasksRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/notes': {
+      id: '/dashboard/notes'
+      path: '/notes'
+      fullPath: '/dashboard/notes'
+      preLoaderRoute: typeof DashboardNotesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/chat': {
       id: '/dashboard/chat'
       path: '/chat'
       fullPath: '/dashboard/chat'
       preLoaderRoute: typeof DashboardChatRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/bookmarks': {
+      id: '/dashboard/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/dashboard/bookmarks'
+      preLoaderRoute: typeof DashboardBookmarksRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/api/threads': {
@@ -425,12 +482,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardBookmarksRoute: typeof DashboardBookmarksRoute
   DashboardChatRoute: typeof DashboardChatRoute
+  DashboardNotesRoute: typeof DashboardNotesRoute
+  DashboardTasksRoute: typeof DashboardTasksRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardBookmarksRoute: DashboardBookmarksRoute,
   DashboardChatRoute: DashboardChatRoute,
+  DashboardNotesRoute: DashboardNotesRoute,
+  DashboardTasksRoute: DashboardTasksRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
