@@ -5,3 +5,15 @@ verify_jwt = true
 
 [functions.ai-note]
 verify_jwt = true
+
+[functions.get-weather]
+verify_jwt = true
+
+[functions.get-news]
+verify_jwt = true
+
+[functions.get-github-trending]
+verify_jwt = true
+
+[functions.get-markets]
+verify_jwt = true

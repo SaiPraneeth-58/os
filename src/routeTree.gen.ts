@@ -13,9 +13,13 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardWeatherRouteImport } from './routes/dashboard.weather'
 import { Route as DashboardTasksRouteImport } from './routes/dashboard.tasks'
 import { Route as DashboardPomodoroRouteImport } from './routes/dashboard.pomodoro'
 import { Route as DashboardNotesRouteImport } from './routes/dashboard.notes'
+import { Route as DashboardNewsRouteImport } from './routes/dashboard.news'
+import { Route as DashboardMarketsRouteImport } from './routes/dashboard.markets'
+import { Route as DashboardGithubRouteImport } from './routes/dashboard.github'
 import { Route as DashboardChatRouteImport } from './routes/dashboard.chat'
 import { Route as DashboardCalendarRouteImport } from './routes/dashboard.calendar'
 import { Route as DashboardBookmarksRouteImport } from './routes/dashboard.bookmarks'
@@ -55,6 +59,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardWeatherRoute = DashboardWeatherRouteImport.update({
+  id: '/weather',
+  path: '/weather',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardTasksRoute = DashboardTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -68,6 +77,21 @@ const DashboardPomodoroRoute = DashboardPomodoroRouteImport.update({
 const DashboardNotesRoute = DashboardNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardNewsRoute = DashboardNewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMarketsRoute = DashboardMarketsRouteImport.update({
+  id: '/markets',
+  path: '/markets',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardGithubRoute = DashboardGithubRouteImport.update({
+  id: '/github',
+  path: '/github',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardChatRoute = DashboardChatRouteImport.update({
@@ -176,9 +200,13 @@ export interface FileRoutesByFullPath {
   '/dashboard/bookmarks': typeof DashboardBookmarksRoute
   '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/github': typeof DashboardGithubRoute
+  '/dashboard/markets': typeof DashboardMarketsRoute
+  '/dashboard/news': typeof DashboardNewsRoute
   '/dashboard/notes': typeof DashboardNotesRoute
   '/dashboard/pomodoro': typeof DashboardPomodoroRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
+  '/dashboard/weather': typeof DashboardWeatherRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
@@ -202,9 +230,13 @@ export interface FileRoutesByTo {
   '/dashboard/bookmarks': typeof DashboardBookmarksRoute
   '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/github': typeof DashboardGithubRoute
+  '/dashboard/markets': typeof DashboardMarketsRoute
+  '/dashboard/news': typeof DashboardNewsRoute
   '/dashboard/notes': typeof DashboardNotesRoute
   '/dashboard/pomodoro': typeof DashboardPomodoroRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
+  '/dashboard/weather': typeof DashboardWeatherRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
@@ -230,9 +262,13 @@ export interface FileRoutesById {
   '/dashboard/bookmarks': typeof DashboardBookmarksRoute
   '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/github': typeof DashboardGithubRoute
+  '/dashboard/markets': typeof DashboardMarketsRoute
+  '/dashboard/news': typeof DashboardNewsRoute
   '/dashboard/notes': typeof DashboardNotesRoute
   '/dashboard/pomodoro': typeof DashboardPomodoroRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
+  '/dashboard/weather': typeof DashboardWeatherRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
@@ -259,9 +295,13 @@ export interface FileRouteTypes {
     | '/dashboard/bookmarks'
     | '/dashboard/calendar'
     | '/dashboard/chat'
+    | '/dashboard/github'
+    | '/dashboard/markets'
+    | '/dashboard/news'
     | '/dashboard/notes'
     | '/dashboard/pomodoro'
     | '/dashboard/tasks'
+    | '/dashboard/weather'
     | '/dashboard/'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
@@ -285,9 +325,13 @@ export interface FileRouteTypes {
     | '/dashboard/bookmarks'
     | '/dashboard/calendar'
     | '/dashboard/chat'
+    | '/dashboard/github'
+    | '/dashboard/markets'
+    | '/dashboard/news'
     | '/dashboard/notes'
     | '/dashboard/pomodoro'
     | '/dashboard/tasks'
+    | '/dashboard/weather'
     | '/dashboard'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
@@ -312,9 +356,13 @@ export interface FileRouteTypes {
     | '/dashboard/bookmarks'
     | '/dashboard/calendar'
     | '/dashboard/chat'
+    | '/dashboard/github'
+    | '/dashboard/markets'
+    | '/dashboard/news'
     | '/dashboard/notes'
     | '/dashboard/pomodoro'
     | '/dashboard/tasks'
+    | '/dashboard/weather'
     | '/dashboard/'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
@@ -369,6 +417,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/weather': {
+      id: '/dashboard/weather'
+      path: '/weather'
+      fullPath: '/dashboard/weather'
+      preLoaderRoute: typeof DashboardWeatherRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/tasks': {
       id: '/dashboard/tasks'
       path: '/tasks'
@@ -388,6 +443,27 @@ declare module '@tanstack/react-router' {
       path: '/notes'
       fullPath: '/dashboard/notes'
       preLoaderRoute: typeof DashboardNotesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/news': {
+      id: '/dashboard/news'
+      path: '/news'
+      fullPath: '/dashboard/news'
+      preLoaderRoute: typeof DashboardNewsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/markets': {
+      id: '/dashboard/markets'
+      path: '/markets'
+      fullPath: '/dashboard/markets'
+      preLoaderRoute: typeof DashboardMarketsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/github': {
+      id: '/dashboard/github'
+      path: '/github'
+      fullPath: '/dashboard/github'
+      preLoaderRoute: typeof DashboardGithubRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/chat': {
@@ -523,9 +599,13 @@ interface DashboardRouteChildren {
   DashboardBookmarksRoute: typeof DashboardBookmarksRoute
   DashboardCalendarRoute: typeof DashboardCalendarRoute
   DashboardChatRoute: typeof DashboardChatRoute
+  DashboardGithubRoute: typeof DashboardGithubRoute
+  DashboardMarketsRoute: typeof DashboardMarketsRoute
+  DashboardNewsRoute: typeof DashboardNewsRoute
   DashboardNotesRoute: typeof DashboardNotesRoute
   DashboardPomodoroRoute: typeof DashboardPomodoroRoute
   DashboardTasksRoute: typeof DashboardTasksRoute
+  DashboardWeatherRoute: typeof DashboardWeatherRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
@@ -533,9 +613,13 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardBookmarksRoute: DashboardBookmarksRoute,
   DashboardCalendarRoute: DashboardCalendarRoute,
   DashboardChatRoute: DashboardChatRoute,
+  DashboardGithubRoute: DashboardGithubRoute,
+  DashboardMarketsRoute: DashboardMarketsRoute,
+  DashboardNewsRoute: DashboardNewsRoute,
   DashboardNotesRoute: DashboardNotesRoute,
   DashboardPomodoroRoute: DashboardPomodoroRoute,
   DashboardTasksRoute: DashboardTasksRoute,
+  DashboardWeatherRoute: DashboardWeatherRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
