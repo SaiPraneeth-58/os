@@ -1,20 +1,17 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { LogOut, Command as CommandIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { ProjectsPanel } from "@/components/dashboard/ProjectsPanel";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { CommandPalette } from "@/components/CommandPalette";
-import { GreetingHeader } from "@/components/dashboard/GreetingHeader";
-import { StatsCards } from "@/components/dashboard/StatsCards";
 
-export const Route = createFileRoute("/dashboard")({ component: Dashboard });
+export const Route = createFileRoute("/dashboard")({ component: DashboardLayout });
 
-function Dashboard() {
+function DashboardLayout() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -71,12 +68,8 @@ function Dashboard() {
             </div>
           </header>
 
-          <main className="flex-1">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-              <GreetingHeader />
-              <StatsCards />
-              <ProjectsPanel />
-            </div>
+          <main className="flex-1 min-h-0">
+            <Outlet />
           </main>
         </div>
       </div>
