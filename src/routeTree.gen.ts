@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardChatRouteImport } from './routes/dashboard.chat'
 import { Route as ApiThreadsRouteImport } from './routes/api/threads'
 import { Route as ApiTasksRouteImport } from './routes/api/tasks'
 import { Route as ApiProjectsRouteImport } from './routes/api/projects'
@@ -42,6 +44,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardChatRoute = DashboardChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const ApiThreadsRoute = ApiThreadsRouteImport.update({
   id: '/api/threads',
@@ -121,7 +133,7 @@ const ApiThreadsIdMessagesRoute = ApiThreadsIdMessagesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
@@ -131,6 +143,8 @@ export interface FileRoutesByFullPath {
   '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
   '/api/ai/summarize-note': typeof ApiAiSummarizeNoteRoute
@@ -141,7 +155,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
@@ -151,6 +164,8 @@ export interface FileRoutesByTo {
   '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
   '/api/ai/summarize-note': typeof ApiAiSummarizeNoteRoute
@@ -162,7 +177,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
@@ -172,6 +187,8 @@ export interface FileRoutesById {
   '/api/projects': typeof ApiProjectsRoute
   '/api/tasks': typeof ApiTasksRouteWithChildren
   '/api/threads': typeof ApiThreadsRouteWithChildren
+  '/dashboard/chat': typeof DashboardChatRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/ai/briefing': typeof ApiAiBriefingRoute
   '/api/ai/suggest-tasks': typeof ApiAiSuggestTasksRoute
   '/api/ai/summarize-note': typeof ApiAiSummarizeNoteRoute
@@ -194,6 +211,8 @@ export interface FileRouteTypes {
     | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
+    | '/dashboard/chat'
+    | '/dashboard/'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
     | '/api/ai/summarize-note'
@@ -204,7 +223,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
     | '/login'
     | '/api/ai'
     | '/api/chat'
@@ -214,6 +232,8 @@ export interface FileRouteTypes {
     | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
+    | '/dashboard/chat'
+    | '/dashboard'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
     | '/api/ai/summarize-note'
@@ -234,6 +254,8 @@ export interface FileRouteTypes {
     | '/api/projects'
     | '/api/tasks'
     | '/api/threads'
+    | '/dashboard/chat'
+    | '/dashboard/'
     | '/api/ai/briefing'
     | '/api/ai/suggest-tasks'
     | '/api/ai/summarize-note'
@@ -245,7 +267,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
   ApiAiRoute: typeof ApiAiRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
@@ -279,6 +301,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/chat': {
+      id: '/dashboard/chat'
+      path: '/chat'
+      fullPath: '/dashboard/chat'
+      preLoaderRoute: typeof DashboardChatRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/api/threads': {
       id: '/api/threads'
@@ -388,6 +424,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardChatRoute: typeof DashboardChatRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardChatRoute: DashboardChatRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 interface ApiAiRouteChildren {
   ApiAiBriefingRoute: typeof ApiAiBriefingRoute
   ApiAiSuggestTasksRoute: typeof ApiAiSuggestTasksRoute
@@ -452,7 +502,7 @@ const ApiThreadsRouteWithChildren = ApiThreadsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
   ApiAiRoute: ApiAiRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
@@ -466,12 +516,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
