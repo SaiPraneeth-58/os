@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
@@ -46,6 +47,11 @@ import { Route as ApiAiSuggestTasksRouteImport } from './routes/api/ai.suggest-t
 import { Route as ApiAiBriefingRouteImport } from './routes/api/ai.briefing'
 import { Route as ApiThreadsIdMessagesRouteImport } from './routes/api/threads.$id.messages'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -231,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/email-prefs': typeof ApiEmailPrefsRoute
@@ -268,6 +275,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/email-prefs': typeof ApiEmailPrefsRoute
@@ -307,6 +315,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/api/ai': typeof ApiAiRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/email-prefs': typeof ApiEmailPrefsRoute
@@ -347,6 +356,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
+    | '/reset-password'
     | '/api/ai'
     | '/api/chat'
     | '/api/email-prefs'
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/reset-password'
     | '/api/ai'
     | '/api/chat'
     | '/api/email-prefs'
@@ -422,6 +433,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
+    | '/reset-password'
     | '/api/ai'
     | '/api/chat'
     | '/api/email-prefs'
@@ -461,6 +473,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ApiAiRoute: typeof ApiAiRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
   ApiEmailPrefsRoute: typeof ApiEmailPrefsRoute
@@ -473,6 +486,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -840,6 +860,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ApiAiRoute: ApiAiRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
   ApiEmailPrefsRoute: ApiEmailPrefsRoute,
